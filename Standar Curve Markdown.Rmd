@@ -1,0 +1,106 @@
+---
+title: "Standard Curves for qPCR manuscript"
+author: "Emily Roggenkamp"
+date: "10/27/2022"
+output: html_document
+---
+## Data Wrangling
+Input Data - in csv format with log10(concentrations) and Cq values
+```{r, message = FALSE}
+setwd("C:/Users/Emily/OneDrive - Michigan State University/Chilvers/Tar spot/qPCR/")
+stdcurve <- read.csv("Plate_3_std_curve.csv", header = TRUE)
+spore <- read.csv("spore_curve.csv", header = TRUE)
+supcurve <- read.csv("standard_curve_blue.csv", header = TRUE)
+supspore <- read.csv("spore_curve_blue.csv", header = TRUE)
+```
+Make log scaling
+```{r, message = FALSE}
+stdcurve$log <- log(stdcurve$fg, base = 10)
+stdcurve
+```
+## Load Packages
+```{r, message = FALSE}
+library(ggplot2)
+library(ggpubr)
+```
+## Change significant digits for regression equation
+Change lines 13-14 to the number of significant digits you want - I used 3. Use only the first line to change and apply. Second line is used to go back.
+```{r, message = FALSE}
+trace(ggpubr:::.stat_lm, edit = TRUE)
+ untrace(ggpubr:::.stat_lm)
+```
+# DNA concentration regression
+## Multiplex Mix
+### Figure 2
+```{r, message = FALSE}
+stdcurve_plot <- ggplot(data = stdcurve, aes(x = log, y = Cq), add = "reg.line") +
+  geom_point() +
+  geom_smooth(method=lm, se=FALSE, color='black') +
+  stat_regline_equation(label.x = 5, label.y = 37.5) +
+  stat_cor(aes(label = paste(..rr.label..)), label.x = 5, label.y = 40, r.digits=4) +
+  scale_x_continuous(name = "Log10(Genomic DNA concentration fg)", breaks = c(1,2,3,4,5,6,7)) +
+  scale_y_continuous(name = "Cq", limits = c(15, 40), n.breaks = 6) +
+  theme_classic2() +
+  ggtitle("Standard Curve",) +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+stdcurve_plot
+```
+
+## Non-Multiplex Mix
+### Supplemental Figure 2
+```{r, message = FALSE}
+stdcurve_plot_sup <- ggplot(data = supcurve, aes(x = log, y = Cq), add = "reg.line") +
+  geom_point() +
+  geom_smooth(method=lm, se=FALSE, color='black') +
+  stat_regline_equation(label.x = 5, label.y = 37.5) +
+  stat_cor(aes(label = paste(..rr.label..)), label.x = 5, label.y = 40, r.digits=4) +
+  scale_x_continuous(name = "Log10(Genomic DNA concentration fg)", breaks = c(1,2,3,4,5,6,7)) +
+  scale_y_continuous(name = "Cq", limits = c(15, 40), n.breaks = 6) +
+  theme_classic2() +
+  ggtitle("Standard Curve Non-Multiplex",) +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+stdcurve_plot_sup
+```
+
+# Spore Concentration Regression
+## Multiplex Mix
+### Figure 3
+```{r, message = FALSE}
+spore_plot <- ggplot(data = spore, aes(x = spore, y = Cq), add = "reg.line") +
+  geom_point() +
+  geom_smooth(method=lm, se=FALSE, color='black') +
+  stat_regline_equation(label.x = 4, label.y = 42.5) +
+  stat_cor(aes(label = paste(..rr.label..)), label.x = 4, label.y = 45, r.digits=4) +
+  scale_x_continuous(name = "Log10(Number of Spores)", breaks = c(1,2,3,4,5,6)) +
+  scale_y_continuous(name = "Cq", limits = c(15, 45), n.breaks = 7) +
+  theme_classic2() +
+  ggtitle("Spore Standard Curve",) +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+spore_plot
+```
+
+## Non-Multiplex Mix
+### Supplemental Figure 3
+```{r, message = FALSE}
+spore_plot_sup <- ggplot(data = supspore, aes(x = spore, y = Cq), add = "reg.line") +
+  geom_point() +
+  geom_smooth(method=lm, se=FALSE, color='black') +
+  stat_regline_equation(label.x = 4, label.y = 42.5) +
+  stat_cor(aes(label = paste(..rr.label..)), label.x = 4, label.y = 45, r.digits=4) +
+  scale_x_continuous(name = "Log10(Number of Spores)", n.breaks = 6) +
+  scale_y_continuous(name = "Cq", limits = c(15, 45), n.breaks = 7) +
+  theme_classic2() +
+  ggtitle("Spore Standard Curve Non-Multiplex",) +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+spore_plot_sup
+```
+
+## Save Plots for Publication
+```{r, message = FALSE}
+#ggsave(filename = "std_curve.png", plot = stdcurve_plot, device = "png", path = "/path/", width = 100, height = 100, units="mm", dpi = 600)
+
+```

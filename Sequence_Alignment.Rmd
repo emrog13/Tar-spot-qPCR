@@ -1,0 +1,109 @@
+---
+title: "Phyllachora ITS multi-alignment for qPCR manuscript"
+author: "Emily Roggenkamp"
+date: "6/29/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = "C:/Users/Emily/OneDrive - Michigan State University/Chilvers/Tar spot/qPCR/Herbaria ITS sequences")
+```
+
+## Load modules
+### Installation ggmsa:
+
+devtools::install_github("YuLab-SMU/ggmsa")
+devtools::install_github("CshlSiepelLab/RPHAST")
+BiocManager::install("msa")
+
+```{r, message = FALSE}
+library(ggmsa)
+library(msa)
+library(ggplot2)
+library(cowplot)
+library(ape)
+library(ggtree)
+```
+
+## Load Data
+Using BioStrings
+```{r}
+probe_file <-file.choose()
+probe_aln <- readAAStringSet(probe_file)
+forward_file <- file.choose()
+forward_aln <- readAAStringSet(forward_file)
+reverse_file <- file.choose()
+reverse_aln <- readAAStringSet(reverse_file)
+```
+
+## Visualization - ggmsa
+### Forward Primer Alignment
+```{r, dpi = 300, message = FALSE}
+forward <- ggmsa(forward_aln, 1, 23, 
+                 color = "Shapely_NT", 
+                 seq_name = FALSE, 
+                 char_width = 0.5,
+                 border = FALSE, 
+                 consensus_views = TRUE, 
+                 ref = "Forward Primer",
+                 disagreement = TRUE) +
+  theme(axis.text.y=element_blank(), 
+        axis.text.x=element_blank(), 
+        plot.margin = unit(c(0,0,0,0), "cm"),
+        text = element_text(size = 24))
+forward
+```
+
+### Reverse Primer Alignment
+```{r, dpi = 300, message = FALSE}
+reverse <- ggmsa(reverse_aln, 1, 22,
+                 color = "Shapely_NT", 
+                 seq_name = FALSE, 
+                 char_width = 0.5,
+                 border = FALSE, 
+                 consensus_views = TRUE, 
+                 ref = "Reverse Primer",
+                 disagreement = TRUE) +
+  theme(axis.text.y=element_blank(), 
+        axis.text.x=element_blank(), 
+        plot.margin = unit(c(0,0,0,0), "mm"),
+        text = element_text(size = 24))
+reverse
+```
+
+### Probe Alignment
+```{r, dpi = 300, message = FALSE}
+probe <- ggmsa(probe_aln, 1, 26, 
+                 color = "Shapely_NT", 
+                 seq_name = FALSE, 
+                 char_width = 0.5,
+                 border = FALSE, 
+                 consensus_views = TRUE, 
+                 ref = "Probe Sequence",
+                 disagreement = TRUE) +
+  theme(axis.text.y=element_blank(), 
+        axis.text.x=element_blank(), 
+        plot.margin = unit(c(0,0,0,0), "mm"),
+        text = element_text(size = 24))
+probe
+```
+
+### Plot together
+```{r, message = FALSE}
+amp_plot3 <- plot_grid(forward, probe, reverse, 
+          ncol = 3, 
+          align = "hv",
+          labels = c("Forward", "Probe", "Reverse"), 
+          hjust = c(-1,-1.5,-1), 
+          vjust = 2) +
+  theme(plot.margin = unit(c(0.1,0.1,0.1,0.1), "mm"),
+        text = element_text(size = 24))
+
+amp_plot3
+```
+
+## Save Plot
+```{r, message = FALSE}
+#ggsave2(plot = amp_plot3, filename = "align.png", units = "mm", width = 150, height = 75, dpi = 600)
+```
