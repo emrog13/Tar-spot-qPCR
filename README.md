@@ -1,5 +1,5 @@
 # Tar-spot-qPCR
-## Code for Phyllachora maydis specific qPCR manuscript
+## Code for <i>Phyllachora maydis<i> specific qPCR manuscript
 ### Figure 1
 Fasta Alignments from various Phyllachora species of Forward, Reverse, and Probe:
 82322_all_herbaria_forward_align.fas
