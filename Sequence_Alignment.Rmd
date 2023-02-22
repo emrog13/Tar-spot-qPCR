@@ -7,7 +7,7 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-knitr::opts_knit$set(root.dir = "C:/Users/Emily/OneDrive - Michigan State University/Chilvers/Tar spot/qPCR/Herbaria ITS sequences")
+knitr::opts_knit$set(root.dir = "/path/")
 ```
 
 ## Load modules
