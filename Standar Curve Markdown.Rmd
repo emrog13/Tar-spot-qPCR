@@ -100,10 +100,9 @@ spore_plot_sup <- ggplot(data = supspore, aes(x = spore, y = Cq), add = "reg.lin
 
 spore_plot_sup
 ```
+
 ## Transferability Standard Curves
-
 ### Supplemental Figure 4
-
 ```{r, message = FALSE}
 allcurve_plot <- ggplot(data = allcurve, aes(x = log, y = Cq, color = Lab) ) +
   geom_point(aes(color = Lab)) +
@@ -117,8 +116,8 @@ allcurve_plot <- ggplot(data = allcurve, aes(x = log, y = Cq, color = Lab) ) +
   ggtitle("Standard Curve",) +
   theme(plot.title = element_text(hjust = 0.5, face = "bold"), legend.position = "right") +
   scale_color_manual(values = c("#1F78B4", "#33A02C", "#B2DF8A", "#FFED6F", "#B15928", "#E31A1C"))
+  
 allcurve_plot
-
 ```
 
 ## Save Plots for Publication
