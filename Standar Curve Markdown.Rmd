@@ -26,7 +26,7 @@ library(ggplot2)
 library(ggpubr)
 ```
 ## Change significant digits for regression equation
-Change lines 13-14 to the number of significant digits you want - I used 3. Use only the first line to change and apply. Second line is used to go back.
+Change lines 13-14 to the number of significant digits for the equation and line 9 for R squared. I used 3 for equation and 4 for R squared.
 ```{r, message = FALSE}
 trace(ggpubr:::.stat_lm, edit = TRUE)
  untrace(ggpubr:::.stat_lm)
