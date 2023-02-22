@@ -21,6 +21,9 @@ Non-Multiplex Mix: (blue)
 DNA concentration - standard_curve_blue.csv
 Spore Concentration - spore_curve_blue.csv
 
+Multi-Lab Curve:
+allcurves.csv
+
 Code:
 Standar Curve Markdown.Rmd
 Standar-Curve-Markdown.html
