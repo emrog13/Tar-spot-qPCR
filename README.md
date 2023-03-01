@@ -40,9 +40,9 @@ Multi-Lab Curve:
 
 Code:
 
-	Standar Curve Markdown.Rmd
+	Standard Curve Markdown.Rmd
 
-	Standar-Curve-Markdown.html
+	Standard-Curve-Markdown.html
 
 
 ## Citation:
