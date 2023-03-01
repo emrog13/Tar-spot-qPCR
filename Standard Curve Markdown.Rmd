@@ -116,7 +116,8 @@ allcurve_plot <- ggplot(data = allcurve, aes(x = log, y = Cq, color = Lab) ) +
   scale_x_continuous(name = "Log10(Genomic DNA concentration fg)", breaks = c(1,2,3,4,5,6,7)) +
   scale_y_continuous(name = "Cq", limits = c(15, 40), n.breaks = 6) +
   labs(color = "Lab") +
-  theme_bw() +
+  theme_classic2() +
+  ggtitle("Multi-Lab Standard Curves",) +
   theme(plot.title = element_text(hjust = 0.5, face = "bold"), legend.position = "right") +
   scale_color_discrete(breaks = c("MSU", "1", "2", "3", "4", "5"))
 allcurve_plot
