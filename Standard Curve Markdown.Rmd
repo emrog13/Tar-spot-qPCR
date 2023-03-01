@@ -7,7 +7,7 @@ output: html_document
 ## Data Wrangling
 Input Data - in csv format with log10(concentrations) and Cq values
 ```{r, message = FALSE, include = FALSE}
-setwd("C:/Users/emrog/OneDrive - Michigan State University/Chilvers/Tar spot/qPCR/qPCR Data Final/Sensitivity")
+setwd("/path/")
 ```
 ```{r}
 stdcurve <- read.csv("Plate_3_std_curve.csv", header = TRUE)
