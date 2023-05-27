@@ -1,0 +1,117 @@
+---
+title: "Standard Curves for qPCR manuscript"
+author: "Emily Roggenkamp"
+date: "6/1/2023"
+output: html_document
+---
+
+## Data Wrangling
+Input Data - in csv format with log10(concentrations) and Ct values
+
+```{r}
+stdcurve <- read.csv("Plate_3_std_curve.csv", header = TRUE)
+spore <- read.csv("spore_curve.csv", header = TRUE)
+supcurve <- read.csv("standard_curve_blue.csv", header = TRUE)
+allcurve <- read.csv("allcurves.csv", header = TRUE)
+```
+
+Make log scaling
+```{r, message = FALSE}
+stdcurve$log <- log(stdcurve$fg, base = 10)
+allcurve$log <- log(allcurve$fg, base = 10)
+stdcurve
+```
+
+## Load Packages
+```{r, message = FALSE}
+library(ggplot2)
+library(ggpubr)
+```
+
+## Change significant digits for regression equation
+Change lines 13-14 to the number of significant digits for the equation and line 9 for R squared. I used 3 for equation and 4 for R squared
+```{r, message = FALSE}
+trace(ggpubr:::.stat_lm, edit = TRUE)
+ #untrace(ggpubr:::.stat_lm)
+```
+
+# DNA concentration regression
+### Figure 2A
+```{r, message = FALSE, warning = FALSE}
+stdcurve_plot <- ggplot(data = stdcurve, aes(x = log, y = Cq), add = "reg.line") +
+  geom_point() +
+  geom_smooth(method=lm, se=FALSE, color='black') +
+  stat_regline_equation(label.x = 4, label.y = 37.5) +
+  stat_cor(aes(label = paste(..rr.label..)), label.x = 4, label.y = 40, r.digits=4) +
+  scale_x_continuous(name = "Log10(Genomic DNA concentration fg)", breaks = c(1,2,3,4,5,6,7)) +
+  scale_y_continuous(name = "Ct", limits = c(10, 40), n.breaks = 7) +
+  theme_classic2() +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+stdcurve_plot
+```
+
+# Spore Concentration Regression
+### Figure 2B
+```{r, message = FALSE, warning = FALSE}
+spore_plot <- ggplot(data = spore, aes(x = log, y = Cq), add = "reg.line") +
+  geom_point() +
+  geom_smooth(method=lm, se=FALSE, color='black') +
+  stat_regline_equation(label.x = 5, label.y = 37.5) +
+  stat_cor(aes(label = paste(..rr.label..)), label.x = 5, label.y = 40, r.digits=4) +
+  scale_x_continuous(name = "Log10(Number of Spores)", breaks = c(1,2,3,4,5,6,7,8)) +
+  scale_y_continuous(name = "Ct", limits = c(10, 40), n.breaks = 7) +
+  theme_classic2() +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+spore_plot
+```
+
+### Figure 2
+```{r, message = FALSE}
+library(cowplot)
+fig2 <- plot_grid(stdcurve_plot, spore_plot, 
+          ncol = 2, 
+          align = "hv",
+          labels = c("A", "B")
+          ) 
+fig2
+```
+
+## Non-Multiplex Mix
+### Supplemental Figure 3
+```{r, message = FALSE, warning = FALSE}
+stdcurve_plot_sup <- ggplot(data = supcurve, aes(x = log, y = Cq), add = "reg.line") +
+  geom_point() +
+  geom_smooth(method=lm, se=FALSE, color='black') +
+  stat_regline_equation(label.x = 5, label.y = 37.5) +
+  stat_cor(aes(label = paste(..rr.label..)), label.x = 5, label.y = 40, r.digits=4) +
+  scale_x_continuous(name = "Log10(Genomic DNA concentration fg)", breaks = c(1,2,3,4,5,6,7)) +
+  scale_y_continuous(name = "Ct", limits = c(10, 40), n.breaks = 7) +
+  theme_classic2() +
+  ggtitle("Standard Curve Non-Multiplex",) +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+stdcurve_plot_sup
+```
+
+## Transferability Standard Curves
+### Figure 3
+```{r, message = FALSE, warning = FALSE}
+allcurve_plot <- ggplot(data = allcurve, aes(x = log, y = Cq, color = Lab) ) +
+  geom_point() +
+  geom_smooth(method=lm, se=FALSE) +
+  stat_regline_equation(aes(label=paste(..eq.label..,..rr.label.., sep = "~~~")), label.x.npc = "left",
+                        label.y.npc = 0.4,formula = y ~ x, size = 3, show.legend = FALSE) +
+  scale_x_continuous(name = "Log10(Genomic DNA concentration fg)", breaks = c(1,2,3,4,5,6,7)) +
+  scale_y_continuous(name = "Ct", limits = c(15, 40), n.breaks = 6) +
+  theme_classic2() +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"), legend.position = "right")
+
+allcurve_plot
+
+```
+## Save Plots for Publication
+```{r, message = FALSE}
+ggsave(filename = "Name.png", plot = fig2, device = "png", width = 178, height = 100, units="mm", dpi = 600)
+```
