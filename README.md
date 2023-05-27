@@ -30,7 +30,6 @@ Multi-Lab Curve:
 
 	allcurves.csv
 	
-### Supplemental
 Non-Multiplex Mix: (Supplemental)
 
 	DNA concentration - standard_curve_blue.csv
