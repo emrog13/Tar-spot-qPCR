@@ -31,8 +31,6 @@ Non-Multiplex Mix: (blue)
 
 	DNA concentration - standard_curve_blue.csv
 
-	Spore Concentration - spore_curve_blue.csv
-
 
 Multi-Lab Curve:
 
