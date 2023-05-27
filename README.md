@@ -17,24 +17,23 @@ Code:
 	Sequence_Alignment.html
 
 
-### Figures 2 and 3
-Files:
-
-Multiplex Mix:
+### Figure 2
+Multiplex Mix
 
 	DNA concentration - Plate_3_std_curve.csv
 
 	Spore concentration - spore_curve.csv
 
-
-Non-Multiplex Mix: (blue)
-
-	DNA concentration - standard_curve_blue.csv
-
+### Figure 3
 
 Multi-Lab Curve:
 
 	allcurves.csv
+	
+### Supplemental
+Non-Multiplex Mix: (Supplemental)
+
+	DNA concentration - standard_curve_blue.csv
 
 Code:
 
