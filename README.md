@@ -34,7 +34,7 @@ Non-Multiplex Mix: (Supplemental)
 
 	DNA concentration - standard_curve_blue.csv
 
-Code:
+Figures 2/3 Code:
 
 	Standard Curve Markdown.Rmd
 
