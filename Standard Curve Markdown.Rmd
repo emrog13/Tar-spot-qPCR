@@ -113,5 +113,5 @@ allcurve_plot
 ```
 ## Save Plots for Publication
 ```{r, message = FALSE}
-ggsave(filename = "Name.png", plot = fig2, device = "png", width = 178, height = 100, units="mm", dpi = 600)
+ggsave(filename = "Name.jpg", plot = plot_name, device = "jpg", width = 178, height = 100, units="mm", dpi = 600)
 ```
